@@ -4,7 +4,6 @@ import in.shaheed.curdSpringBoot.entity.Student;
 import in.shaheed.curdSpringBoot.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +28,8 @@ public class StudentController {
     }
 
     //Read Student - GET - /api/students/{id} or /api/students
-    @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id){
+    @GetMapping()
+    public ResponseEntity<Student> getStudent(@RequestParam Long id){
         Student studentResp = studentService.getStudent(id);
         if(studentResp == null){
             return ResponseEntity.notFound().build();
@@ -48,8 +47,8 @@ public class StudentController {
     }
 
     //Update Student - PUT - /api/students/{id}
-    @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student studentReq){
+    @PutMapping()
+    public ResponseEntity<Student> updateStudent(@RequestParam Long id, @RequestBody Student studentReq){
         Student studentResp = studentService.updateStudent(id, studentReq);
         if(studentResp == null){
             return ResponseEntity.notFound().build();
@@ -58,10 +57,19 @@ public class StudentController {
     }
 
     // Delete Student - DELETE - /api/students/{id}
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable Long id){
+    @DeleteMapping()
+    public ResponseEntity<String> deleteStudent(@RequestParam Long id){
         Boolean isDeleted = studentService.deleteStudent(id);
-        if(isDeleted){
+        if(!isDeleted){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok("Records deleted successfully.");
+    }
+
+    @PatchMapping("/delete-soft/")
+    public ResponseEntity<String> deleteStudentSoftly(@RequestParam Long id){
+        Boolean isDeleted = studentService.deleteStudentSoftly(id);
+        if(!isDeleted){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok("Records deleted successfully.");

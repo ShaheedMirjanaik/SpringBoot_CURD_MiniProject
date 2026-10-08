@@ -1,12 +1,15 @@
 package in.shaheed.curdSpringBoot.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Student {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -14,8 +17,7 @@ public class Student {
     private String email;
     private int rollNo;
     private String subject;
-    private Long course_id;
-
+    private Boolean deleted;
 
     public String getEmail() {
         return email;
@@ -57,19 +59,19 @@ public class Student {
         this.age = age;
     }
 
-    public Long getCourse_id() {
-        return course_id;
-    }
-
-    public void setCourse_id(Long course_id) {
-        this.course_id = course_id;
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }
